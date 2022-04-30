@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DB01Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="admin">
+          <Key>
+            <PropertyRef Name="adminId" />
+          </Key>
+          <Property Name="adminId" Type="int" Nullable="false" />
+          <Property Name="adminPassword" Type="nvarchar" MaxLength="50" />
+          <Property Name="adminAdsoyad" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ogr">
+          <Key>
+            <PropertyRef Name="ogrId" />
+          </Key>
+          <Property Name="ogrId" Type="int" Nullable="false" />
+          <Property Name="ogrAdsoyad" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ogrMail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ogrNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ogrSoru" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ogrt">
+          <Key>
+            <PropertyRef Name="ogrtId" />
+          </Key>
+          <Property Name="ogrtId" Type="int" Nullable="false" />
+          <Property Name="ogrtMail" Type="nvarchar" MaxLength="50" />
+          <Property Name="ogrtAdsoyad" Type="nvarchar" MaxLength="50" />
+          <Property Name="ogrtNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="ogrtYanıt" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="soru">
+          <Key>
+            <PropertyRef Name="soruNo" />
+          </Key>
+          <Property Name="soruNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="yanıtNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ogr_soru">
+          <End Role="soru" Type="Self.soru" Multiplicity="0..1" />
+          <End Role="ogr" Type="Self.ogr" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="soru">
+              <PropertyRef Name="soruNo" />
+            </Principal>
+            <Dependent Role="ogr">
+              <PropertyRef Name="ogrSoru" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ogrt_soru">
+          <End Role="soru" Type="Self.soru" Multiplicity="0..1" />
+          <End Role="ogrt" Type="Self.ogrt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="soru">
+              <PropertyRef Name="soruNo" />
+            </Principal>
+            <Dependent Role="ogrt">
+              <PropertyRef Name="ogrtYanıt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB01ModelStoreContainer">
+          <EntitySet Name="admin" EntityType="Self.admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ogr" EntityType="Self.ogr" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ogrt" EntityType="Self.ogrt" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="soru" EntityType="Self.soru" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ogr_soru" Association="Self.FK_ogr_soru">
+            <End Role="soru" EntitySet="soru" />
+            <End Role="ogr" EntitySet="ogr" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ogrt_soru" Association="Self.FK_ogrt_soru">
+            <End Role="soru" EntitySet="soru" />
+            <End Role="ogrt" EntitySet="ogrt" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB01Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="admin">
+          <Key>
+            <PropertyRef Name="adminId" />
+          </Key>
+          <Property Name="adminId" Type="Int32" Nullable="false" />
+          <Property Name="adminPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="adminAdsoyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ogr">
+          <Key>
+            <PropertyRef Name="ogrId" />
+          </Key>
+          <Property Name="ogrId" Type="Int32" Nullable="false" />
+          <Property Name="ogrAdsoyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ogrMail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ogrNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ogrSoru" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="soru" Relationship="Self.FK_ogr_soru" FromRole="ogr" ToRole="soru" />
+        </EntityType>
+        <EntityType Name="ogrt">
+          <Key>
+            <PropertyRef Name="ogrtId" />
+          </Key>
+          <Property Name="ogrtId" Type="Int32" Nullable="false" />
+          <Property Name="ogrtMail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ogrtAdsoyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ogrtNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ogrtYanıt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="soru" Relationship="Self.FK_ogrt_soru" FromRole="ogrt" ToRole="soru" />
+        </EntityType>
+        <EntityType Name="soru">
+          <Key>
+            <PropertyRef Name="soruNo" />
+          </Key>
+          <Property Name="soruNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="yanıtNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ogr" Relationship="Self.FK_ogr_soru" FromRole="soru" ToRole="ogr" />
+          <NavigationProperty Name="ogrt" Relationship="Self.FK_ogrt_soru" FromRole="soru" ToRole="ogrt" />
+        </EntityType>
+        <Association Name="FK_ogr_soru">
+          <End Role="soru" Type="Self.soru" Multiplicity="0..1" />
+          <End Role="ogr" Type="Self.ogr" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="soru">
+              <PropertyRef Name="soruNo" />
+            </Principal>
+            <Dependent Role="ogr">
+              <PropertyRef Name="ogrSoru" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ogrt_soru">
+          <End Role="soru" Type="Self.soru" Multiplicity="0..1" />
+          <End Role="ogrt" Type="Self.ogrt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="soru">
+              <PropertyRef Name="soruNo" />
+            </Principal>
+            <Dependent Role="ogrt">
+              <PropertyRef Name="ogrtYanıt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB01Entities3" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="admin" EntityType="Self.admin" />
+          <EntitySet Name="ogr" EntityType="Self.ogr" />
+          <EntitySet Name="ogrt" EntityType="Self.ogrt" />
+          <EntitySet Name="soru" EntityType="Self.soru" />
+          <AssociationSet Name="FK_ogr_soru" Association="Self.FK_ogr_soru">
+            <End Role="soru" EntitySet="soru" />
+            <End Role="ogr" EntitySet="ogr" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ogrt_soru" Association="Self.FK_ogrt_soru">
+            <End Role="soru" EntitySet="soru" />
+            <End Role="ogrt" EntitySet="ogrt" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB01ModelStoreContainer" CdmEntityContainer="DB01Entities3">
+          <EntitySetMapping Name="admin">
+            <EntityTypeMapping TypeName="DB01Model.admin">
+              <MappingFragment StoreEntitySet="admin">
+                <ScalarProperty Name="adminId" ColumnName="adminId" />
+                <ScalarProperty Name="adminPassword" ColumnName="adminPassword" />
+                <ScalarProperty Name="adminAdsoyad" ColumnName="adminAdsoyad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ogr">
+            <EntityTypeMapping TypeName="DB01Model.ogr">
+              <MappingFragment StoreEntitySet="ogr">
+                <ScalarProperty Name="ogrId" ColumnName="ogrId" />
+                <ScalarProperty Name="ogrAdsoyad" ColumnName="ogrAdsoyad" />
+                <ScalarProperty Name="ogrMail" ColumnName="ogrMail" />
+                <ScalarProperty Name="ogrNo" ColumnName="ogrNo" />
+                <ScalarProperty Name="ogrSoru" ColumnName="ogrSoru" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ogrt">
+            <EntityTypeMapping TypeName="DB01Model.ogrt">
+              <MappingFragment StoreEntitySet="ogrt">
+                <ScalarProperty Name="ogrtId" ColumnName="ogrtId" />
+                <ScalarProperty Name="ogrtMail" ColumnName="ogrtMail" />
+                <ScalarProperty Name="ogrtAdsoyad" ColumnName="ogrtAdsoyad" />
+                <ScalarProperty Name="ogrtNo" ColumnName="ogrtNo" />
+                <ScalarProperty Name="ogrtYanıt" ColumnName="ogrtYanıt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="soru">
+            <EntityTypeMapping TypeName="DB01Model.soru">
+              <MappingFragment StoreEntitySet="soru">
+                <ScalarProperty Name="soruNo" ColumnName="soruNo" />
+                <ScalarProperty Name="yanıtNo" ColumnName="yanıtNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
